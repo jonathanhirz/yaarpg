@@ -1,0 +1,40 @@
+{
+  luxe:{
+    window: {
+      width:960,
+      height:640,
+      title:'adrifter',
+      fullscreen:false,
+      resizable:true,
+      if : {
+        ios : {
+          borderless:true
+        },
+        "!ios": {
+          borderless:false
+        }
+      }
+    }
+  },
+
+  project : {
+    name : 'adrifter',
+    version : '0.0.1',
+    author : 'Jonathan Hirz',
+
+    app : {
+      name : 'adrifter',
+      package : 'com.jonathanhirz.adrifter'
+    },
+
+    build : {
+      dependencies : {
+        luxe : '*',
+      }
+    },
+
+    files : {
+      assets : 'assets/'
+    }
+  }
+}
