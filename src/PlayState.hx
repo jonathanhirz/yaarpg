@@ -16,7 +16,7 @@ class PlayState extends State {
     var current_tilemap : TiledMap;
     var ship_map : String = 'assets/ship_map.tmx';
     var ship_map_2 : String = 'assets/ship_map_2.tmx';
-    var tilemap_colliders : Array<Shape> = [];
+    public static var tilemap_colliders : Array<Shape> = [];
     var start_position : Vector;
 
     // player
@@ -52,13 +52,9 @@ class PlayState extends State {
 
         Luxe.camera.center.weighted_average_xy(player.pos.x, player.pos.y, 10);
 
-        if(Luxe.input.inputdown('left')) {
-            if(player_animation.animation != 'walk_lr')
-                player_animation.animation = 'walk_lr';
-        }
-
     } //update
 
+    // TILEMAP
     function draw_tilemap( _map:String ) {
 
         var res = Luxe.resources.text(_map);
@@ -99,12 +95,16 @@ class PlayState extends State {
 
     } //get_start_position
 
+    // PLAYER
     function create_player() {
 
-        player = new Sprite({
-            texture : Luxe.resources.texture('assets/player.png'),
+        var res = Luxe.resources.texture('assets/player.png');
+        assertnull(res, "Player texture not found");
+
+        player = new Player({
+            texture : res,
             pos : start_position,
-            size : new Vector(32, 32),
+            size : new Vector(32,32),
             depth : 1
         });
 
@@ -119,5 +119,17 @@ class PlayState extends State {
         player_animation.play();
 
     } //create_player_animation
+
+    function clean_up() {
+
+        if(current_tilemap != null) {
+            current_tilemap.destroy();
+            current_tilemap = null;
+        }
+        if(player != null) {
+            player.destroy();
+            player = null;
+        }
+    }
 
 } //PlayState

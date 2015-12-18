@@ -2,7 +2,7 @@
   luxe:{
     window: {
       width:960,
-      height:640,
+      height:544,
       title:'adrifter',
       fullscreen:false,
       resizable:true,
