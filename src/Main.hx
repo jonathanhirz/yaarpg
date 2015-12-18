@@ -4,6 +4,7 @@ import luxe.States;
 class Main extends luxe.Game {
 
     var machine : States;
+    public static var draw_colliders : Bool = false;
 
     override function config(config:luxe.AppConfig) {
 
@@ -39,6 +40,9 @@ class Main extends luxe.Game {
         if(e.keycode == Key.escape) {
             Luxe.shutdown();
         }
+        if(e.keycode == Key.key_0) {
+            draw_colliders = !draw_colliders;
+        }
 
     } //onkeyup
 
@@ -57,6 +61,7 @@ class Main extends luxe.Game {
         Luxe.input.bind_key('left', Key.left);
         Luxe.input.bind_key('left', Key.key_a);
         Luxe.input.bind_key('space', Key.space);
+        Luxe.input.bind_key('run', Key.lshift);
 
     } //connect_input
 

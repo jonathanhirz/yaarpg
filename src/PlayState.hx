@@ -51,6 +51,9 @@ class PlayState extends State {
     override function update(dt:Float) {
 
         Luxe.camera.center.weighted_average_xy(player.pos.x, player.pos.y, 10);
+        if(Main.draw_colliders) {
+            for(shape in tilemap_colliders) draw_collider_polygon(cast shape);
+        }
 
     } //update
 
@@ -94,6 +97,20 @@ class PlayState extends State {
         }
 
     } //get_start_position
+
+    function draw_collider_polygon(poly:Polygon) {
+
+        var geom = Luxe.draw.poly({
+            solid:false,
+            close:true,
+            depth:100,
+            points:poly.vertices,
+            immediate:true
+        });
+
+        geom.transform.pos.copy_from(poly.position);
+
+    } //draw_collider_polygon
 
     // PLAYER
     function create_player() {
