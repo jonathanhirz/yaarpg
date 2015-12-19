@@ -3,7 +3,7 @@ import luxe.States;
 
 class Main extends luxe.Game {
 
-    var machine : States;
+    public static var machine : States;
     public static var draw_colliders : Bool = false;
 
     override function config(config:luxe.AppConfig) {
@@ -30,7 +30,7 @@ class Main extends luxe.Game {
         machine.add(new MenuState('menu_state'));
         machine.add(new PlayState('play_state'));
         Luxe.on(init, function(_) {
-            machine.set('play_state');
+            machine.set('play_state', 'assets/ship_map.tmx');
         });
 
     } //ready
