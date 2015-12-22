@@ -7,7 +7,6 @@ import luxe.tilemaps.Tilemap;
 import luxe.importers.tiled.TiledMap;
 import luxe.importers.tiled.TiledLayer;
 import luxe.importers.tiled.TiledObjectGroup;
-import luxe.components.sprite.SpriteAnimation;
 import luxe.collision.shapes.Shape;
 import luxe.collision.shapes.Polygon;
 
@@ -16,12 +15,12 @@ class PlayState extends State {
     // tilemap
     var tilemap_name : String;
     var current_tilemap : TiledMap;
-    public static var tilemap_colliders : Array<Shape> = [];
     var start_position : Vector;
+    public static var tilemap_colliders : Array<Shape> = [];
 
     // player
     var player : Sprite;
-    var player_animation : SpriteAnimation;
+    
 
     public function new( _name:String ) {
         super({ name:_name });
@@ -39,7 +38,6 @@ class PlayState extends State {
         get_tilemap_colliders();
         get_start_position();
         create_player();
-        create_player_animation();
 
     } //onenter
 
@@ -135,19 +133,9 @@ class PlayState extends State {
             depth : 1
         });
 
-        player.add(new PlayerInputCollision('input_collision'));
+        player.add(new PlayerBrain('player_brain'));
 
     } //create_player
-
-    function create_player_animation() {
-
-        var player_animation_json = Luxe.resources.json('assets/player_anim.json');
-        player_animation = player.add(new SpriteAnimation({ name:'player_anim' }));
-        player_animation.add_from_json_object(player_animation_json.asset.json);
-        player_animation.animation = 'idle';
-        player_animation.play();
-
-    } //create_player_animation
 
     function clean_up() {
 

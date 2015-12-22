@@ -1,14 +1,14 @@
 import luxe.Component;
 import luxe.Vector;
 import luxe.Sprite;
-
+import luxe.components.sprite.SpriteAnimation;
 import luxe.collision.Collision;
 import luxe.collision.shapes.Shape;
 import luxe.collision.shapes.Polygon;
 import luxe.collision.shapes.Circle;
 import luxe.collision.ShapeDrawerLuxe;
 
-class PlayerInputCollision extends Component {
+class PlayerBrain extends Component {
 
     var player : Sprite;
     var player_collider : Circle;
@@ -16,9 +16,8 @@ class PlayerInputCollision extends Component {
     var player_walk_speed : Float = 5;
     var player_run_speed : Float = 8;
     var x_flipped : Bool = false;
-
     var player_collider_drawer : ShapeDrawerLuxe;
-
+    var player_animation : SpriteAnimation;
 
     public function new(_name:String) {
         super({ name:_name });
@@ -26,10 +25,21 @@ class PlayerInputCollision extends Component {
 
     override function init() {
 
+        // sprite
         player = cast entity;
         player_speed = player_walk_speed;
+
+        // collider
         player_collider = new Circle(player.pos.x, player.pos.y, player.size.x/2 - 1);
         player_collider_drawer = new ShapeDrawerLuxe();
+        player.pos = player_collider.position;
+
+        // animation
+        var player_animation_json = Luxe.resources.json('assets/player_anim.json');
+        player_animation = player.add(new SpriteAnimation({ name:'player_anim' }));
+        player_animation.add_from_json_object(player_animation_json.asset.json);
+        player_animation.animation = 'idle';
+        player_animation.play();
 
     } //init
 
@@ -65,8 +75,6 @@ class PlayerInputCollision extends Component {
 
         resolve_horizontal_collisions();
         resolve_vertical_collisions();
-
-        player.pos = player_collider.position;
 
         if(Main.draw_colliders) {
             player_collider_drawer.drawCircle(player_collider);
@@ -120,4 +128,4 @@ class PlayerInputCollision extends Component {
 
     } //flip_sprite
 
-} //PlayerInputCollision
+} //PlayerBrain
