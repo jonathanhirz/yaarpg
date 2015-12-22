@@ -8,38 +8,26 @@ import luxe.importers.tiled.TiledMap;
 import luxe.importers.tiled.TiledLayer;
 import luxe.importers.tiled.TiledObjectGroup;
 import luxe.components.sprite.SpriteAnimation;
-import luxe.collision.Collision;
 import luxe.collision.shapes.Shape;
 import luxe.collision.shapes.Polygon;
-import luxe.collision.shapes.Circle;
-import luxe.collision.ShapeDrawerLuxe;
 
 class PlayState extends State {
 
     // tilemap
     var tilemap_name : String;
     var current_tilemap : TiledMap;
-    var tilemap_colliders : Array<Shape> = [];
+    public static var tilemap_colliders : Array<Shape> = [];
     var start_position : Vector;
 
     // player
     var player : Sprite;
     var player_animation : SpriteAnimation;
-    var x_flipped : Bool = false;
-    var player_speed : Float;
-    var player_walk_speed : Float = 5;
-    var player_run_speed : Float = 8;
-    var player_collider : Circle;
-    var player_collider_drawer : ShapeDrawerLuxe;
 
     public function new( _name:String ) {
         super({ name:_name });
     } //new
 
     override function init() {
-
-        player_speed = player_walk_speed;
-        player_collider_drawer = new ShapeDrawerLuxe();
 
     } //init
 
@@ -65,43 +53,6 @@ class PlayState extends State {
     override function update(dt:Float) {
 
         Luxe.camera.center.weighted_average_xy(player.pos.x, player.pos.y, 10);
-
-        // player movement
-        if(Luxe.input.inputdown('up')) {
-            player_collider.position.y -= player_speed;
-            resolve_vertical_collisions();
-        }
-        if(Luxe.input.inputdown('down')) {
-            player_collider.position.y += player_speed;
-            resolve_vertical_collisions();
-        }
-        if(Luxe.input.inputdown('left')) {
-            x_flipped = true;
-            player_collider.position.x -= player_speed;
-            resolve_horizontal_collisions();
-            flip_sprite();
-        }
-        if(Luxe.input.inputdown('right')) {
-            x_flipped = false;
-            player_collider.position.x += player_speed;
-            resolve_horizontal_collisions();
-            flip_sprite();
-        }
-        if(Luxe.input.inputdown('run')) {
-            player_speed = player_run_speed;
-        }
-        if(Luxe.input.inputreleased('run')) {
-            player_speed = player_walk_speed;
-        }
-
-        resolve_horizontal_collisions();
-        resolve_vertical_collisions();
-
-        player.pos = player_collider.position.clone();
-
-        if(Main.draw_colliders) {
-            player_collider_drawer.drawCircle(player_collider);
-        }
 
         if(Main.draw_colliders) {
             for(shape in tilemap_colliders) draw_collider_polygon(cast shape);
@@ -184,7 +135,7 @@ class PlayState extends State {
             depth : 1
         });
 
-        player_collider = new Circle(player.pos.x, player.pos.y, player.size.x/2 - 1);
+        player.add(new PlayerInputCollision('input_collision'));
 
     } //create_player
 
@@ -197,52 +148,6 @@ class PlayState extends State {
         player_animation.play();
 
     } //create_player_animation
-
-    function resolve_horizontal_collisions() {
-
-        var collisions = Collision.shapeWithShapes(player_collider, tilemap_colliders);
-        if(collisions.length == 1) {
-            player_collider.position.x += collisions[0].separation.x;
-        }
-        if(collisions.length > 1) {
-
-            if(Math.abs(collisions[0].separation.x) > Math.abs(collisions[1].separation.x)) {
-                player_collider.position.x += collisions[0].separation.x;
-            }
-            if(Math.abs(collisions[1].separation.x) > Math.abs(collisions[0].separation.x)) {
-                player_collider.position.x += collisions[1].separation.x;
-            }
-        }
-
-    } //resolve_horizontal_collisions
-
-    function resolve_vertical_collisions() {
-
-        var collisions = Collision.shapeWithShapes(player_collider, tilemap_colliders);
-        if(collisions.length == 1) {
-            player_collider.position.y += collisions[0].separation.y;
-        }
-        if(collisions.length > 1) {
-
-            if(Math.abs(collisions[0].separation.y) > Math.abs(collisions[1].separation.y)) {
-                player_collider.position.y += collisions[0].separation.y;
-            }
-            if(Math.abs(collisions[1].separation.y) > Math.abs(collisions[0].separation.y)) {
-                player_collider.position.y += collisions[1].separation.y;
-            }
-        }
-
-    } //resolve_vertical_collisions
-
-    function flip_sprite() {
-
-        if(x_flipped) {
-            player.flipx = true;
-        } else {
-            player.flipx = false;
-        }
-
-    } //flip_sprite
 
     function clean_up() {
 
