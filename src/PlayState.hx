@@ -10,6 +10,8 @@ import luxe.importers.tiled.TiledObjectGroup;
 import luxe.collision.shapes.Shape;
 import luxe.collision.shapes.Polygon;
 
+import gif.GifEncoder;
+
 class PlayState extends State {
 
     // tilemap
@@ -20,7 +22,9 @@ class PlayState extends State {
 
     // player
     var player : Sprite;
-    
+
+    // var encoder = new GifEncoder(0, 100, true);
+    // var encoder_recording : Bool = true;
 
     public function new( _name:String ) {
         super({ name:_name });
@@ -38,6 +42,11 @@ class PlayState extends State {
         get_tilemap_colliders();
         get_start_position();
         create_player();
+
+        // encoder.setFramerate(10.0);
+        // encoder.setDelay(10);
+        // encoder.startFile('out.gif');
+
 
     } //onenter
 
@@ -62,6 +71,20 @@ class PlayState extends State {
         if(Luxe.input.keydown(Key.key_x)) {
             Main.machine.set('play_state', 'assets/ship_map_2.tmx');
         }
+        // if(Luxe.input.keydown(Key.key_h)) {
+        //     if(encoder_recording) encoder.finish();
+        //     encoder_recording = false;
+        // }
+
+        // if(encoder_recording) {
+        //     var frame = {
+        //         width : 960,
+        //         height : 544,
+        //         data : new haxe.io.UInt8Array(960 * 544 * 3)
+        //     }
+
+        //     encoder.addFrame(frame);
+        // }
 
     } //update
 
