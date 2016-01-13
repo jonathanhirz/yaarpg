@@ -13,7 +13,7 @@ class PlayerBrain extends Component {
     var player : Sprite;
     var player_collider : Circle;
     var player_speed : Float;
-    var player_walk_speed : Float = 5;
+    var player_walk_speed : Float = 5;  // 5 for 60 fps, 10 for 30 fps
     var player_run_speed : Float = 8;
     var x_flipped : Bool = false;
     var player_collider_drawer : ShapeDrawerLuxe;
@@ -34,6 +34,7 @@ class PlayerBrain extends Component {
         player_collider_drawer = new ShapeDrawerLuxe();
         player.pos = player_collider.position;
 
+        //todo: fix player animation while moving
         // animation
         var player_animation_json = Luxe.resources.json('assets/player_anim.json');
         player_animation = player.add(new SpriteAnimation({ name:'player_anim' }));

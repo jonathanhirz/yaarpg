@@ -66,7 +66,7 @@ class PlayState extends State {
         }
 
         if(Luxe.input.keydown(Key.key_z)) {
-            Main.machine.set('play_state', 'assets/ship_map.tmx');
+            Main.machine.set('play_state', 'assets/outside.tmx');
         }
         if(Luxe.input.keydown(Key.key_x)) {
             Main.machine.set('play_state', 'assets/ship_map_2.tmx');

@@ -10,11 +10,13 @@ class Main extends luxe.Game {
 
         config.preload.textures.push({ id:'assets/player.png' });
         config.preload.textures.push({ id:'assets/tileset.png' });
+        config.preload.textures.push({ id:'assets/sheet_19.png' });
 
         config.preload.jsons.push({ id:'assets/player_anim.json' });
 
         config.preload.texts.push({ id:'assets/ship_map.tmx' });
         config.preload.texts.push({ id:'assets/ship_map_2.tmx' });
+        config.preload.texts.push({ id:'assets/outside.tmx' });
 
         return config;
 
@@ -23,7 +25,7 @@ class Main extends luxe.Game {
     override function ready() {
 
         // app.render_rate = 1/30;
-        // app.update_rate = 1/30;
+        // app.update_rate = 1/40;  //30 FPS lock
 
         connect_input();
         machine = new States({ name:'statemachine' });

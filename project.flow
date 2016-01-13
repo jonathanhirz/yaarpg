@@ -3,7 +3,7 @@
     window: {
       width:960,
       height:544,
-      title:'adrifter',
+      title:'vacuum_of_space',
       fullscreen:false,
       resizable:true,
       if : {
@@ -18,7 +18,7 @@
   },
 
   project : {
-    name : 'adrifter',
+    name : 'vacuum_of_space',
     version : '0.0.1',
     author : 'Jonathan Hirz',
 
