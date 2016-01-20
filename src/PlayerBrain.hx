@@ -46,6 +46,7 @@ class PlayerBrain extends Component {
 
     override function update(dt:Float) {
 
+        //todo: adjust player movement. should be physics-ey, with roll
         // player movement
         if(Luxe.input.inputdown('up')) {
             player.pos.y -= player_speed;
