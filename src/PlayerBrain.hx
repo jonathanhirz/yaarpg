@@ -11,10 +11,10 @@ import luxe.collision.ShapeDrawerLuxe;
 class PlayerBrain extends Component {
 
     var player : Sprite;
+    var player_speed : Float = 1.5;
     var player_collider : Circle;
-    var player_speed : Float;
-    var player_walk_speed : Float = 5;  // 5 for 60 fps, 10 for 30 fps
-    var player_run_speed : Float = 8;
+    var player_velocity : Vector = new Vector(0, 0);
+    var player_acceleration : Vector = new Vector(0, 0);
     var x_flipped : Bool = false;
     var player_collider_drawer : ShapeDrawerLuxe;
     var player_animation : SpriteAnimation;
@@ -27,7 +27,6 @@ class PlayerBrain extends Component {
 
         // sprite
         player = cast entity;
-        player_speed = player_walk_speed;
 
         // collider
         player_collider = new Circle(player.pos.x, player.pos.y, player.size.x/2 - 1);
@@ -49,31 +48,43 @@ class PlayerBrain extends Component {
         //todo: adjust player movement. should be physics-ey, with roll
         // player movement
         if(Luxe.input.inputdown('up')) {
-            player.pos.y -= player_speed;
+            player_acceleration = new Vector(player_acceleration.x, -player_speed);
             resolve_vertical_collisions();
         }
+        if(Luxe.input.inputreleased('up')) {
+            player_acceleration = new Vector(player_acceleration.x, 0);
+        }
         if(Luxe.input.inputdown('down')) {
-            player.pos.y += player_speed;
+            player_acceleration = new Vector(player_acceleration.x, player_speed);
             resolve_vertical_collisions();
+        }
+        if(Luxe.input.inputreleased('down')) {
+            player_acceleration = new Vector(player_acceleration.x, 0);
         }
         if(Luxe.input.inputdown('left')) {
             x_flipped = true;
-            player.pos.x -= player_speed;
+            player_acceleration = new Vector(-player_speed, player_acceleration.y);
             resolve_horizontal_collisions();
             flip_sprite();
+        }
+        if(Luxe.input.inputreleased('left')) {
+            player_acceleration = new Vector(0, player_acceleration.y);
         }
         if(Luxe.input.inputdown('right')) {
             x_flipped = false;
-            player.pos.x += player_speed;
+            player_acceleration = new Vector(player_speed, player_acceleration.y);
             resolve_horizontal_collisions();
             flip_sprite();
         }
-        if(Luxe.input.inputdown('run')) {
-            player_speed = player_run_speed;
+        if(Luxe.input.inputreleased('right')) {
+            player_acceleration = new Vector(0, player_acceleration.y);
         }
-        if(Luxe.input.inputreleased('run')) {
-            player_speed = player_walk_speed;
-        }
+
+        player.pos.add(player_velocity);
+        player_velocity.add(player_acceleration);
+        player_velocity.multiply(new Vector(0.8, 0.8));
+        if(Math.abs(player_velocity.x) < 0.01) player_velocity.x = 0;
+        if(Math.abs(player_velocity.y) < 0.01) player_velocity.y = 0;
 
         resolve_horizontal_collisions();
         resolve_vertical_collisions();
