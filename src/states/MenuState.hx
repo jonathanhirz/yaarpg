@@ -1,3 +1,5 @@
+package states;
+
 import luxe.States;
 
 class MenuState extends State {

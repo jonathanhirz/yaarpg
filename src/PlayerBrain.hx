@@ -1,3 +1,4 @@
+import states.PlayState;
 import luxe.Component;
 import luxe.Vector;
 import luxe.Sprite;
@@ -15,6 +16,7 @@ class PlayerBrain extends Component {
     var player_collider : Circle;
     var player_velocity : Vector = new Vector(0, 0);
     var player_acceleration : Vector = new Vector(0, 0);
+    var player_decceleration_factor : Float = 0.8;
     var x_flipped : Bool = false;
     var player_collider_drawer : ShapeDrawerLuxe;
     var player_animation : SpriteAnimation;
@@ -45,7 +47,6 @@ class PlayerBrain extends Component {
 
     override function update(dt:Float) {
 
-        //todo: adjust player movement. should be physics-ey, with roll
         // player movement
         if(Luxe.input.inputdown('up')) {
             player_acceleration = new Vector(player_acceleration.x, -player_speed);
@@ -82,7 +83,7 @@ class PlayerBrain extends Component {
 
         player.pos.add(player_velocity);
         player_velocity.add(player_acceleration);
-        player_velocity.multiply(new Vector(0.8, 0.8));
+        player_velocity.multiply(new Vector(player_decceleration_factor, player_decceleration_factor));
         if(Math.abs(player_velocity.x) < 0.01) player_velocity.x = 0;
         if(Math.abs(player_velocity.y) < 0.01) player_velocity.y = 0;
 

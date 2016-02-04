@@ -1,6 +1,11 @@
 import luxe.Input;
 import luxe.States;
 
+import states.StartCreditsState;
+import states.TitleScreenState;
+import states.MenuState;
+import states.PlayState;
+
 class Main extends luxe.Game {
 
     public static var machine : States;
