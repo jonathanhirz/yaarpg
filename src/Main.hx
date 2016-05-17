@@ -1,17 +1,28 @@
 import luxe.Input;
 import luxe.States;
+import luxe.Screen;
+import luxe.GameConfig;
 
-import states.StartCreditsState;
-import states.TitleScreenState;
-import states.MenuState;
-import states.PlayState;
+import states.*;
 
 class Main extends luxe.Game {
 
     public static var machine : States;
     public static var draw_colliders : Bool = false;
 
-    override function config(config:luxe.AppConfig) {
+    override function config(config:GameConfig) : GameConfig {
+
+        if(config.user.window != null) {
+            if(config.user.window.width != null) {
+                config.window.width = Std.int(config.user.window.width);
+            }
+            if(config.user.window.height != null) {
+                config.window.height = Std.int(config.user.window.height);
+            }
+        }
+
+        config.window.title = config.user.window.title;
+
 
         config.preload.textures.push({ id:'assets/player.png' });
         config.preload.textures.push({ id:'assets/tileset.png' });
@@ -29,15 +40,23 @@ class Main extends luxe.Game {
 
     override function ready() {
 
+
+        //todo: Outside tiles
+        //todo: Switch tilemap on certain tiles
+        //todo: New character (human)
+        //todo: Swing something (sword or stick)
+        //todo: Enemies to hit
+        //todo: is this an action rpg?
+
         // app.render_rate = 1/30;
         // app.update_rate = 1/40;  //30 FPS lock
 
         connect_input();
         machine = new States({ name:'statemachine' });
         machine.add(new MenuState('menu_state'));
-        machine.add(new PlayState('play_state'));
+        machine.add(new GameState('game_state'));
         Luxe.on(init, function(_) {
-            machine.set('play_state', 'assets/ship_map.tmx');
+            machine.set('game_state', 'assets/ship_map.tmx');
         });
 
     } //ready
@@ -56,6 +75,11 @@ class Main extends luxe.Game {
     override function update(dt:Float) {
 
     } //update
+
+    override function onwindowresized( e:WindowEvent ) {
+        trace(e);
+        Luxe.camera.viewport = new luxe.Rectangle(0, 0, e.x, e.y);
+    }
 
     function connect_input() {
 

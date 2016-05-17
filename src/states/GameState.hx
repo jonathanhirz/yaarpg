@@ -12,9 +12,7 @@ import luxe.importers.tiled.TiledObjectGroup;
 import luxe.collision.shapes.Shape;
 import luxe.collision.shapes.Polygon;
 
-import gif.GifEncoder;
-
-class PlayState extends State {
+class GameState extends State {
 
     // tilemap
     var tilemap_name : String;
@@ -67,11 +65,11 @@ class PlayState extends State {
             for(shape in tilemap_colliders) draw_collider_polygon(cast shape);
         }
 
-        if(Luxe.input.keydown(Key.key_z)) {
-            Main.machine.set('play_state', 'assets/ship_map.tmx');
+        if(Luxe.input.keypressed(Key.key_z)) {
+            Main.machine.set('game_state', 'assets/ship_map.tmx');
         }
-        if(Luxe.input.keydown(Key.key_x)) {
-            Main.machine.set('play_state', 'assets/ship_map_2.tmx');
+        if(Luxe.input.keypressed(Key.key_x)) {
+            Main.machine.set('game_state', 'assets/ship_map_2.tmx');
         }
         // if(Luxe.input.keydown(Key.key_h)) {
         //     if(encoder_recording) encoder.finish();
@@ -123,7 +121,7 @@ class PlayState extends State {
 
         for(_group in current_tilemap.tiledmap_data.object_groups) {
             for(_object in _group.objects) {
-                if(_object.name == 'entrance') {
+                if(_object.name == 'exit') {
                     start_position = _object.pos;
                 }
             }
@@ -175,4 +173,4 @@ class PlayState extends State {
         tilemap_colliders = [];
     }
 
-} //PlayState
+} //GameState

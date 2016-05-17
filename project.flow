@@ -1,40 +1,25 @@
 {
-  luxe:{
-    window: {
-      width:960,
-      height:544,
-      title:'vacuum_of_space',
-      fullscreen:false,
-      resizable:true,
-      if : {
-        ios : {
-          borderless:true
-        },
-        "!ios": {
-          borderless:false
-        }
-      }
-    }
-  },
-
   project : {
-    name : 'vacuum_of_space',
+    name : 'yaarpg',
     version : '0.0.1',
     author : 'Jonathan Hirz',
 
     app : {
-      name : 'adrifter',
-      package : 'com.jonathanhirz.adrifter'
+      name : 'yaarpg',
+      package : 'com.jonathanhirz.yaarpg'
     },
 
     build : {
       dependencies : {
-        luxe : '*',
-        gif : '*'
+        luxe : '*'
+      },
+      hxcpp : {
+        flags : ['-nocolor']
       }
     },
 
     files : {
+      config : 'config.json',
       assets : 'assets/'
     }
   }

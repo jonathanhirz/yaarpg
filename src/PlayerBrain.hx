@@ -1,4 +1,4 @@
-import states.PlayState;
+import states.*;
 import luxe.Component;
 import luxe.Vector;
 import luxe.Sprite;
@@ -40,7 +40,7 @@ class PlayerBrain extends Component {
         var player_animation_json = Luxe.resources.json('assets/player_anim.json');
         player_animation = player.add(new SpriteAnimation({ name:'player_anim' }));
         player_animation.add_from_json_object(player_animation_json.asset.json);
-        player_animation.animation = 'idle';
+        player_animation.animation = 'walk_up';
         player_animation.play();
 
     } //init
@@ -48,6 +48,9 @@ class PlayerBrain extends Component {
     override function update(dt:Float) {
 
         // player movement
+        //todo: tighten up movement. shouldn't be so floaty
+
+
         if(Luxe.input.inputdown('up')) {
             player_acceleration = new Vector(player_acceleration.x, -player_speed);
             resolve_vertical_collisions();
@@ -98,7 +101,7 @@ class PlayerBrain extends Component {
 
     function resolve_horizontal_collisions() {
 
-        var collisions = Collision.shapeWithShapes(player_collider, PlayState.tilemap_colliders);
+        var collisions = Collision.shapeWithShapes(player_collider, GameState.tilemap_colliders);
         if(collisions.length == 1) {
             player_collider.position.x += collisions[0].separation.x;
         }
@@ -116,7 +119,7 @@ class PlayerBrain extends Component {
 
     function resolve_vertical_collisions() {
 
-        var collisions = Collision.shapeWithShapes(player_collider, PlayState.tilemap_colliders);
+        var collisions = Collision.shapeWithShapes(player_collider, GameState.tilemap_colliders);
         if(collisions.length == 1) {
             player_collider.position.y += collisions[0].separation.y;
         }
