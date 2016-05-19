@@ -40,7 +40,7 @@ class PlayerBrain extends Component {
         var player_animation_json = Luxe.resources.json('assets/player_anim.json');
         player_animation = player.add(new SpriteAnimation({ name:'player_anim' }));
         player_animation.add_from_json_object(player_animation_json.asset.json);
-        player_animation.animation = 'walk_up';
+        player_animation.animation = 'walk_lr';
         player_animation.play();
 
     } //init
