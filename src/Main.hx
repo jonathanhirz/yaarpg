@@ -47,6 +47,7 @@ class Main extends luxe.Game {
         //todo: Swing something (sword or stick)
         //todo: Enemies to hit
         //todo: is this an action rpg?
+        //todo: story?
 
         // app.render_rate = 1/30;
         // app.update_rate = 1/40;  //30 FPS lock
