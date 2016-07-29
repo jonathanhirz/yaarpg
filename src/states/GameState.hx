@@ -22,6 +22,7 @@ class GameState extends State {
 
     // player
     var player : Sprite;
+    var another : Sprite;
 
     // var encoder = new GifEncoder(0, 100, true);
     // var encoder_recording : Bool = true;
